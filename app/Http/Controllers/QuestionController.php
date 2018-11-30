@@ -25,7 +25,20 @@ class QuestionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // maneira manual de fazer abaixo
+        // $question = new Question;
+        // $question->tittle = $request->tittle;
+        // $question->slug = $request->slug;
+        // $question->body = $request->body;
+        // $question->category_id = $request->category_id;
+        // $question->user_id = $request->user_id;
+        // $question->save();
+
+        // Com laravel
+        // \auth()->user()->question()->create($request->all()); // completa automaticamente o user_id
+        Question::create($request->all());
+
+        return response('Created', 201);
     }
 
     /**
@@ -59,6 +72,7 @@ class QuestionController extends Controller
      */
     public function destroy(Question $question)
     {
-        //
+        $question->delete();
+        return response('Deleted', 201);
     }
 }
