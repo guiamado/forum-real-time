@@ -20,8 +20,8 @@ class Question extends Model
         return 'slug';
     }
 
-    // protected $fillable = ['tittle', 'slug', 'body', 'category_id', 'user_id'];
-    protected $guarded = []; // pega qualquer campo
+    protected $fillable = ['tittle', 'slug', 'body', 'category_id', 'user_id'];
+    // protected $guarded = []; // pega qualquer campo
 
     public function user() 
     {
