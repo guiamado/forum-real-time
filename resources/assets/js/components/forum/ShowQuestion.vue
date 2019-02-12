@@ -11,14 +11,19 @@
                 <v-spacer></v-spacer>
                 <v-btn color="teal">5 Replies</v-btn>
             </v-card-title>
-            <v-card-text v-html="question.body"></v-card-text>
+            <v-card-text v-html="body"></v-card-text>
         </v-container>
     </v-card>
 </template>
 
 <script>
 export default {
-    props: ['question']
+    props: ['question'],
+    computed: {
+        body() {
+            return md.parse(this.question.body)
+        }
+    }
 
 }
 </script>

@@ -48,9 +48,12 @@ class QuestionController extends Controller
 
         // Com laravel
         // \auth()->user()->question()->create($request->all()); // completa automaticamente o user_id
-        Question::create($request->all());
+        
+        // $request['slug'] = \str_slug($request->title);
+        $question = \auth()->user()->question()->create($request->all());
+        // Question::create($request->all());
 
-        return response('Created', 201);
+        return response(new QuestionResource($question), 201);
     }
 
     /**
