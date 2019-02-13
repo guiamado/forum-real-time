@@ -90561,6 +90561,11 @@ var User = function () {
         value: function own(id) {
             return this.id() == id;
         }
+    }, {
+        key: 'admin',
+        value: function admin() {
+            return this.id() == 21;
+        }
     }]);
 
     return User;
@@ -90938,7 +90943,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            items: [{ title: 'Forum', to: '/forum', show: true }, { title: 'Ask Question', to: '/ask', show: User.loggedIn() }, { title: 'Category', to: '/category', show: User.loggedIn() }, { title: 'Login', to: '/login', show: !User.loggedIn() }, { title: 'Logout', to: '/logout', show: User.loggedIn() }]
+            items: [{ title: 'Forum', to: '/forum', show: true }, { title: 'Ask Question', to: '/ask', show: User.loggedIn() }, { title: 'Category', to: '/category', show: User.admin() }, { title: 'Login', to: '/login', show: !User.loggedIn() }, { title: 'Logout', to: '/logout', show: User.loggedIn() }]
         };
     },
     created: function created() {
@@ -95939,7 +95944,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -96004,6 +96009,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     created: function created() {
         var _this = this;
 
+        if (!User.admin()) {
+            this.$router.push('/forum');
+        }
         axios.get('/api/category').then(function (res) {
             return _this.categories = res.data.data;
         }).catch(function (error) {
@@ -96018,7 +96026,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         destroy: function destroy(slug, index) {
             var _this2 = this;
 
-            axios.delete("/api/category/" + slug).then(function (res) {
+            axios.delete('/api/category/' + slug).then(function (res) {
                 return _this2.categories.splice(index, 1);
             }).catch(function (error) {
                 return _this2.errors = error.response.data.error;
@@ -96040,7 +96048,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         update: function update() {
             var _this4 = this;
 
-            axios.patch("/api/category/" + this.editSlug, this.form).then(function (res) {
+            axios.patch('/api/category/' + this.editSlug, this.form).then(function (res) {
                 _this4.categories.unshift(res.data);
                 _this4.form.name = null;
             });
