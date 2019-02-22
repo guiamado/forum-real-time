@@ -8,7 +8,7 @@
             :question="question"
             ></show-question>
         <v-container>
-            <replies :replies="question.replies"></replies>
+            <replies :question="question"></replies>
             <CreateReply :questionSlug="question.slug"></CreateReply>    
         </v-container>
     </div>

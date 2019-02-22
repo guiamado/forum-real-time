@@ -95682,7 +95682,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -95704,13 +95704,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['replies'],
+    props: ['question'],
     data: function data() {
         return {
-            content: this.replies
+            content: this.question.replies
         };
     },
 
@@ -95727,6 +95728,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             EventBus.$on('newReply', function (reply) {
                 _this.content.unshift(reply);
+            });
+
+            EventBus.$on('deleteReply', function (index) {
+                axios.delete('/api/question/' + _this.question.slug + '/reply/' + _this.content[index].id).then(function (res) {
+                    _this.content.splice(index, 1);
+                });
             });
         }
     }
@@ -95818,7 +95825,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -95853,10 +95860,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['data'],
+    props: ['data', 'index'],
     computed: {
         own: function own() {
             return User.own(this.data.user_id);
+        }
+    },
+    methods: {
+        destroy: function destroy() {
+            EventBus.$emit('deleteReply', this.index);
         }
     }
 });
@@ -95911,7 +95923,10 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "v-btn",
-                    { attrs: { icon: "", small: "" } },
+                    {
+                      attrs: { icon: "", small: "" },
+                      on: { click: _vm.destroy }
+                    },
                     [
                       _c("v-icon", { attrs: { color: "red" } }, [
                         _vm._v("delete")
@@ -95948,11 +95963,14 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm.replies
+  return _vm.content
     ? _c(
         "div",
-        _vm._l(_vm.content, function(reply) {
-          return _c("reply", { key: reply.id, attrs: { data: reply } })
+        _vm._l(_vm.content, function(reply, index) {
+          return _c("reply", {
+            key: reply.id,
+            attrs: { index: index, data: reply }
+          })
         }),
         1
       )
@@ -96160,7 +96178,7 @@ var render = function() {
           _c(
             "v-container",
             [
-              _c("replies", { attrs: { replies: _vm.question.replies } }),
+              _c("replies", { attrs: { question: _vm.question } }),
               _vm._v(" "),
               _c("CreateReply", { attrs: { questionSlug: _vm.question.slug } })
             ],
